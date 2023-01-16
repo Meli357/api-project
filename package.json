@@ -1,6 +1,7 @@
 {
   "name": "api-project",
   "scripts": {
+    "format": "prettier --write .",
     "test": "jest"
   },
   "engines": {
@@ -15,6 +16,7 @@
   },
   "homepage": "https://github.com/Meli357/api-project#readme",
   "devDependencies": {
-    "jest": "^29.3.1"
+    "jest": "^29.3.1",
+    "prettier": "2.8.3"
   }
 }
