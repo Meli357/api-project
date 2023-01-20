@@ -3,7 +3,6 @@ import "express-async-errors";
 
 import prisma from "./lib/prisma/client";
 
-//add planetSchema,planetData
 import {
     validate,
     validationErrorMiddleware,
@@ -13,7 +12,6 @@ import {
 
 const app = express();
 
-//so it will handle json
 app.use(express.json());
 
 app.get("/planets", async (request, response) => {
@@ -22,9 +20,26 @@ app.get("/planets", async (request, response) => {
     response.json(planets);
 });
 
-//set a route for the HTTP method POST
-//call validate function after import
-//change what request body expects(planetSchema&planetData)
+//create new route to get a single planet
+//it will run only 1 or more digits
+app.get("/planets/:id(\\d+)", async (request, response, next) => {
+    //to access Id parameter
+    const planetId = Number(request.params.id);
+
+    //search planet by Id using prisma client
+    const planet = await prisma.planet.findUnique({
+        where: { id: planetId },
+    });
+
+    //error handling/falsy check
+    if (!planet) {
+        response.status(404);
+        return next(`Cannot GET /planets/${planetId}`);
+    }
+
+    response.json(planet);
+});
+
 app.post(
     "/planets",
     validate({ body: planetSchema }),

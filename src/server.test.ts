@@ -41,7 +41,6 @@ describe("GET /planets", () => {
     });
 });
 
-//to group some tests together use describe block
 describe("POST /planets", () => {
     test("Valid request", async () => {
         const planet = {
@@ -57,7 +56,6 @@ describe("POST /planets", () => {
         //@ts-ignore
         prismaMock.planet.create.mockResolvedValue(planet);
 
-        //add .send so it can be send as json
         const response = await request
             .post("/planets")
             .send({
@@ -71,25 +69,71 @@ describe("POST /planets", () => {
         expect(response.body).toEqual(planet);
     });
 
-    //name is a required field
     test("Invalid request", async () => {
         const planet = {
             diameter: 1234,
             moons: 12,
         };
 
-        //change expect from 201 to 422 (status code)
         const response = await request
             .post("/planets")
             .send(planet)
             .expect(422)
             .expect("Content-Type", /application\/json/);
 
-        //add object with errors property
         expect(response.body).toEqual({
             errors: {
                 body: expect.any(Array),
             },
         });
+    });
+});
+
+//to get a single planet
+describe("GET /planets/:id", () => {
+    test("Valid request", async () => {
+        const planet = {
+            id: 1,
+            name: "Mercury",
+            description: null,
+            diameter: 1234,
+            moons: 12,
+            createdAt: "2023-01-19T23:40:32.446Z",
+            updatedAt: "2023-01-19T23:24:25.946Z",
+        };
+
+        //@ts-ignore
+        prismaMock.planet.findUnique.mockResolvedValue(planet);
+
+        const response = await request
+            .get("/planets/1")
+            .expect(200)
+            .expect("Content-Type", /application\/json/);
+
+        expect(response.body).toEqual(planet);
+    });
+
+    //to handle inexistent id
+    test("Planet does not exist", async () => {
+        //@ts-ignore
+        prismaMock.planet.findUnique.mockResolvedValue(null);
+
+        const response = await request
+            .get("/planets/23")
+            //not found error response
+            .expect(404)
+            .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot GET /planets/23");
+    });
+
+    //to handle invalid id
+    test("Invalid planet Id", async () => {
+        const response = await request
+            .get("/planets/abcd")
+            .expect(404)
+            .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot GET /planets/abcd");
     });
 });
