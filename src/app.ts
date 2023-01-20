@@ -3,6 +3,14 @@ import "express-async-errors";
 
 import prisma from "./lib/prisma/client";
 
+//add planetSchema,planetData
+import {
+    validate,
+    validationErrorMiddleware,
+    planetSchema,
+    PlanetData,
+} from "./lib/validation";
+
 const app = express();
 
 //so it will handle json
@@ -15,11 +23,20 @@ app.get("/planets", async (request, response) => {
 });
 
 //set a route for the HTTP method POST
-app.post("/planets", async (request, response) => {
-    const planet = request.body;
+//call validate function after import
+//change what request body expects(planetSchema&planetData)
+app.post(
+    "/planets",
+    validate({ body: planetSchema }),
+    async (request, response) => {
+        const planet: PlanetData = request.body;
 
-    response.status(201).json(planet);
-});
+        response.status(201).json(planet);
+    }
+);
+
+//after the routes
+app.use(validationErrorMiddleware);
 
 export default app;
 
