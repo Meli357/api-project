@@ -14,6 +14,31 @@ app.get("/planets", async (request, response) => {
 export default app;
 
 /*
+Response on POSTMAN:
+
+[
+    {
+        "id": 1,
+        "name": "Mercury",
+        "description": null,
+        "diameter": 1234,
+        "moons": 12,
+        "createdAt": "2023-01-19T23:40:32.446Z",
+        "updatedAt": "2023-01-19T23:24:25.946Z"
+    },
+    {
+        "id": 2,
+        "name": "Venus",
+        "description": null,
+        "diameter": 5678,
+        "moons": 6,
+        "createdAt": "2023-01-19T23:40:32.446Z",
+        "updatedAt": "2023-01-19T23:25:01.831Z"
+    }
+]
+ */
+
+/*
 GET /planets -> Retrieve all planets
 app.get("/planets", (request, response)=>{});
 
