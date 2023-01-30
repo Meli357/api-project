@@ -259,3 +259,25 @@ describe("DELETE /planets/:id", () => {
         expect(response.text).toContain("Cannot DELETE /planets/abcd");
     });
 });
+
+//new route that connects file uploads
+describe("POST /planets/:id/photo", () => {
+    test("Invalid planet ID", async () => {
+        const response = await request
+            .post("/planets/abcd/photo")
+            .expect(404)
+            .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("Cannot POST /planets/abcd/photo");
+    });
+
+    test("Invalid request with no file upload", async () => {
+        const response = await request
+            .post("/planets/23/photo")
+            //client error
+            .expect(400)
+            .expect("Content-Type", /text\/html/);
+
+        expect(response.text).toContain("No photo file uploaded");
+    });
+});
