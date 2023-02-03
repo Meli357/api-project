@@ -269,6 +269,7 @@ describe("POST /planets/:id/photo", () => {
         await request
             .post("/planets/23/photo")
             .attach("photo", "test-fixtures/photos/file.png")
+            .expect(201)
             .expect("Access-Control-Allow-Origin", "http://localhost:8080");
     });
 

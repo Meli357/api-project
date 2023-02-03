@@ -3,7 +3,10 @@ import { Validator, ValidationError } from "express-json-validator-middleware";
 import { ErrorRequestHandler } from "express";
 
 //new instance of Validator class
-const validator = new Validator({});
+const validator = new Validator({
+    //to accept numbers
+    coerceTypes: true,
+});
 
 //configuration of ajv
 addFormats(validator.ajv, ["date-time"])
