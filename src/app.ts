@@ -106,8 +106,10 @@ app.delete("/planets/:id(\\d+)", async (request, response, next) => {
     }
 });
 
+//to upload photo
 app.post(
     "/planets/:id(\\d+)/photo",
+    //first handler
     upload.single("photo"),
     async (request, response, next) => {
         console.log("request.file", request.file);

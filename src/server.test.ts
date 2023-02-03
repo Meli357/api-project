@@ -15,8 +15,8 @@ describe("GET /planets", () => {
                 description: null,
                 diameter: 1234,
                 moons: 12,
-                createdAt: "2023-01-19T23:40:32.446Z",
-                updatedAt: "2023-01-19T23:24:25.946Z",
+                createdAt: "2023-01-31T22:38:49.263Z",
+                updatedAt: "2023-01-31T22:40:02.119Z",
             },
             {
                 id: 2,
@@ -24,8 +24,8 @@ describe("GET /planets", () => {
                 description: null,
                 diameter: 5678,
                 moons: 6,
-                createdAt: "2023-01-19T23:40:32.446Z",
-                updatedAt: "2023-01-19T23:25:01.831Z",
+                createdAt: "2023-01-31T22:43:42.558Z",
+                updatedAt: "2023-01-31T23:06:00.856Z",
             },
         ];
 
@@ -51,8 +51,8 @@ describe("POST /planets", () => {
             description: null,
             diameter: 1234,
             moons: 12,
-            createdAt: "2023-01-20T17:28:18.171Z",
-            updatedAt: "2023-01-20T17:28:18.171Z",
+            createdAt: "2023-01-31T22:54:15.614Z",
+            updatedAt: "2023-01-31T23:03:26.383Z",
         };
 
         //@ts-ignore
@@ -101,8 +101,8 @@ describe("GET /planets/:id", () => {
             description: null,
             diameter: 1234,
             moons: 12,
-            createdAt: "2023-01-19T23:40:32.446Z",
-            updatedAt: "2023-01-19T23:24:25.946Z",
+            createdAt: "2023-01-31T22:38:49.263Z",
+            updatedAt: "2023-01-31T22:40:02.119Z",
         };
 
         //@ts-ignore
@@ -150,8 +150,8 @@ describe("PUT /planets/:id", () => {
             description: "Rocky planet",
             diameter: 1234,
             moons: 12,
-            createdAt: "2023-01-20T17:28:18.171Z",
-            updatedAt: "2023-01-20T17:28:18.171Z",
+            createdAt: "2023-01-31T22:54:15.614Z",
+            updatedAt: "2023-01-31T23:03:26.383Z",
         };
 
         //@ts-ignore
@@ -260,8 +260,18 @@ describe("DELETE /planets/:id", () => {
     });
 });
 
+/* These tests depend on: src/lib/middleware/multer.mock.ts
+It uses multer.memoryStorage, so no files are writtten to disk */
+
 //new route that connects file uploads
 describe("POST /planets/:id/photo", () => {
+    test("Valid request with PNG file upload", async () => {
+        await request
+            .post("/planets/23/photo")
+            .attach("photo", "test-fixtures/photos/file.png")
+            .expect("Access-Control-Allow-Origin", "http://localhost:8080");
+    });
+
     test("Invalid planet ID", async () => {
         const response = await request
             .post("/planets/abcd/photo")
