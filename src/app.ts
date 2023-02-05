@@ -13,6 +13,7 @@ const app = express();
 
 app.use(initSessionMiddleware());
 app.use(passport.initialize());
+//handles serializing and deserializing
 app.use(passport.session());
 
 app.use(express.json());

@@ -1,13 +1,15 @@
 import passport from "passport";
 import passportGithub2 from "passport-github2";
 
+import config from "../../config";
+
 //strategies are used for authenticate
 const githubStrategy = new passportGithub2.Strategy(
     //configuration settings
     {
-        clientID: "",
-        clientSecret: "",
-        callbackURL: "",
+        clientID: config.GITHUB_CLIENT_ID,
+        clientSecret: config.GITHUB_CLIENT_SECRET,
+        callbackURL: config.GITHUB_CALLBACK_URL,
     },
     //add verify callback function, after someone has logged
     function (
