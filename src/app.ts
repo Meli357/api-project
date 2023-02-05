@@ -124,12 +124,8 @@ app.post(
 
         try {
             await prisma.planet.update({
-                where: {
-                    id: planetId,
-                },
-                data: {
-                    photoFilename,
-                },
+                where: { id: planetId },
+                data: { photoFilename },
             });
         } catch (error) {
             response.status(404);
