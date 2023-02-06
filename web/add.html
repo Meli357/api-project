@@ -1,5 +1,8 @@
 <!DOCTYPE html>
   <body>
+    <p>
+        <a href="http://localhost:3000/auth/login?redirectTo=http://localhost:8080/add">Login</a>
+    </p>
     <form action="http://localhost:3000/planets" id="form-add">
         <label>
             <strong>Name:</strong>
@@ -28,7 +31,7 @@
             //changes data to json string
             const formData = new FormData(form);
             const plainFormData = Object.fromEntries(formData.entries());
-            const FormDataJsonString = JSON.stringify(plainFormData);
+            const formDataJsonString = JSON.stringify(plainFormData);
 
             const url = form.action;
 
@@ -38,7 +41,8 @@
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: FormDataJsonString,
+                body: formDataJsonString,
+                credentials: "include",
             });
 
             //to get response from API

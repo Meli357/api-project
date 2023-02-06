@@ -1,6 +1,8 @@
 import passport from "passport";
 import passportGithub2 from "passport-github2";
 
+import { RequestHandler } from "express";
+
 import config from "../../config";
 
 //strategies are used for authenticate
@@ -35,4 +37,13 @@ passport.serializeUser<Express.User>((user, done) => done(null, user));
 //to retrieve user data from session
 passport.deserializeUser<Express.User>((user, done) => done(null, user));
 
-export { passport };
+//to check if somebody is loggged with valid session
+const checkAuthorization: RequestHandler = (request, response, next) => {
+    if (request.isAuthenticated()) {
+        return next();
+    }
+
+    response.status(401).end();
+};
+
+export { passport, checkAuthorization };
